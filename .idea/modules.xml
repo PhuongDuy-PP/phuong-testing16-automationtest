@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/java-baitap/java-baitap.iml" filepath="$PROJECT_DIR$/java-baitap/java-baitap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/session1-java-coban/session1-java-coban.iml" filepath="$PROJECT_DIR$/session1-java-coban/session1-java-coban.iml" />
+      <module fileurl="file://$PROJECT_DIR$/session2-condition-loop/session2-condition-loop.iml" filepath="$PROJECT_DIR$/session2-condition-loop/session2-condition-loop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testing16.iml" filepath="$PROJECT_DIR$/testing16.iml" />
+    </modules>
+  </component>
+</project>
