@@ -13,10 +13,10 @@ public class AdminTest extends BaseTest{
     @BeforeMethod
     public void loginAndOpenAdminPage() throws InterruptedException {
 //        case 1: login -> access url cua admin page
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage(getDriver(), getWait());
         loginPage.login("Admin", "admin123");
 
-        adminPage = new AdminPage(driver, wait);
+        adminPage = new AdminPage(getDriver(), getWait());
         adminPage.open();
 //        case 2: login -> click menu admin
     }

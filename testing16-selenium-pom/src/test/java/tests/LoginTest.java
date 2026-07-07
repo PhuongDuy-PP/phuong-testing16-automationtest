@@ -14,21 +14,21 @@ public class LoginTest extends BaseTest {
     @Test(description = "Test login success")
     public void testLoginSuccess() throws InterruptedException {
 //        khoi tao doi tuong LoginPage
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage(getDriver(), getWait());
 
         loginPage.login("Admin", "admin123");
 
 //        kiem tra expected - actual result
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = getDriver().getCurrentUrl();
 
         Assert.assertTrue(currentUrl.contains("dashboard"));
     }
 
     @Test(description = "Test login fail")
     public void testLoginFail() throws  InterruptedException {
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage(getDriver(), getWait());
         loginPage.login("Admin", "admin1234");
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = getDriver().getCurrentUrl();
         Assert.assertTrue(currentUrl.contains("auth/login"));
         Assert.assertFalse(currentUrl.contains("dashboard"));
     }
@@ -45,14 +45,14 @@ public class LoginTest extends BaseTest {
 
     @Test(description = "Test login data provider", dataProvider = "loginData")
     public void testDataLogin(String username, String password, String expectedResult) throws InterruptedException {
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage(getDriver(), getWait());
         loginPage.login(username, password);
 
         if(expectedResult.equalsIgnoreCase("success")) {
-            String currentUrl = driver.getCurrentUrl();
+            String currentUrl = getDriver().getCurrentUrl();
             Assert.assertTrue(currentUrl.contains("dashboard"));
         } else {
-            Assert.assertTrue(driver.getCurrentUrl().contains("auth/login"));
+            Assert.assertTrue(getDriver().getCurrentUrl().contains("auth/login"));
         }
     }
 }
