@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.ConfigReader;
 
 public class LoginPage extends BasePage {
 //    <input
@@ -30,7 +31,7 @@ public class LoginPage extends BasePage {
 //    define các step
     public void open() {
         Allure.step("Open login page", () -> {
-            String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+            String url = ConfigReader.get("login.base.url");
             driver.get(url);
             wait.until(ExpectedConditions.visibilityOfElementLocated(USERNAME_INPUT));
         });

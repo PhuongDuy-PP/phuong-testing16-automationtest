@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
+import utils.ConfigReader;
 import utils.CsvReader;
 
 import java.io.IOException;
@@ -24,7 +25,10 @@ public class LoginTest extends BaseTest {
 //        khoi tao doi tuong LoginPage
         LoginPage loginPage = new LoginPage(getDriver(), getWait());
 
-        loginPage.login("Admin", "admin123");
+        String username = ConfigReader.get("admin.username");
+        String password = ConfigReader.get("admin.password");
+
+        loginPage.login(username, password);
 
 //        kiem tra expected - actual result
         String currentUrl = getDriver().getCurrentUrl();
