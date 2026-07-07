@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -9,8 +10,15 @@ import utils.CsvReader;
 import java.io.IOException;
 import java.util.List;
 
+// Epic > Feature > Story > Test case
+
+@Epic("OrangeHRM web")
+@Feature("Authentication")
 public class LoginTest extends BaseTest {
 
+    @Story("Login")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Login success with Admin username and **** password and redirect to Dashboard page")
     @Test(description = "Test login success")
     public void testLoginSuccess() throws InterruptedException {
 //        khoi tao doi tuong LoginPage
@@ -24,6 +32,9 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(currentUrl.contains("dashboard"));
     }
 
+    @Story("Login")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Login fail with Admin username and **** password")
     @Test(description = "Test login fail")
     public void testLoginFail() throws  InterruptedException {
         LoginPage loginPage = new LoginPage(getDriver(), getWait());
@@ -43,6 +54,9 @@ public class LoginTest extends BaseTest {
         return CsvReader.toDataProviderArray(data);
     }
 
+    @Story("Login")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Login with data provider")
     @Test(description = "Test login data provider", dataProvider = "loginData")
     public void testDataLogin(String username, String password, String expectedResult) throws InterruptedException {
         LoginPage loginPage = new LoginPage(getDriver(), getWait());

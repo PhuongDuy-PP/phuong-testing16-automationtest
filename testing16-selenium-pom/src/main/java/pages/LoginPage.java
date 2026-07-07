@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,37 +29,45 @@ public class LoginPage extends BasePage {
 
 //    define các step
     public void open() {
-        String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
-        driver.get(url);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(USERNAME_INPUT));
+        Allure.step("Open login page", () -> {
+            String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+            driver.get(url);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(USERNAME_INPUT));
+        });
     }
 
     public void enterUsername(String username) throws InterruptedException {
-        WebElement usernameInput = driver.findElement(USERNAME_INPUT);
-        highlight(usernameInput);
+        Allure.step("Enter username: " + username, () -> {
+            WebElement usernameInput = driver.findElement(USERNAME_INPUT);
+            highlight(usernameInput);
 
-        usernameInput.sendKeys(username);
-        Thread.sleep(2000);
-        unhighlight(usernameInput);
+            usernameInput.sendKeys(username);
+            Thread.sleep(2000);
+            unhighlight(usernameInput);
+        });
     }
 
     public void enterPassword(String password)throws InterruptedException {
-        WebElement passwordInput = driver.findElement(PASSWORD_INPUT);
-        highlight(passwordInput);
+        Allure.step("Enter password: ", () -> {
+            WebElement passwordInput = driver.findElement(PASSWORD_INPUT);
+            highlight(passwordInput);
 
-        passwordInput.sendKeys(password);
-        Thread.sleep(2000);
-        unhighlight(passwordInput);
+            passwordInput.sendKeys(password);
+            Thread.sleep(2000);
+            unhighlight(passwordInput);
+        });
     }
 
     public void clickLoginBtn() throws InterruptedException {
-        WebElement loginBtn = driver.findElement(LOGIN_BUTTON);
-        highlight(loginBtn);
+        Allure.step("Click login button", () -> {
+            WebElement loginBtn = driver.findElement(LOGIN_BUTTON);
+            highlight(loginBtn);
 
-        loginBtn.click();
+            loginBtn.click();
 
-        Thread.sleep(1000);
-        unhighlight(loginBtn);
+            Thread.sleep(1000);
+            unhighlight(loginBtn);
+        });
     }
 
 //    func gom 3 step này với nhau

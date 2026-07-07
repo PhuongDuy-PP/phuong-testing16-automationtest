@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -45,7 +46,8 @@ public class AdminPage extends BasePage{
     }
 
     public void open() {
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers");
+        Allure.step("Open admin page", () -> {
+            driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers");
 //        case 1: doi den khi xuat hien element userInput thi step tiep theo
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(USER_INPUT));
 
@@ -54,42 +56,49 @@ public class AdminPage extends BasePage{
 //                ((JavascriptExecutor) driver)
 //                        .executeScript("return document.readyState")
 //                        .equals("complete"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(USER_INPUT));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(USER_INPUT));
+        });
     }
 
     public void enterUsername(String username) throws InterruptedException {
-        WebElement userInput = driver.findElement(USER_INPUT);
-        highlight(userInput);
+        Allure.step("Enter username: " + username, () -> {
+            WebElement userInput = driver.findElement(USER_INPUT);
+            highlight(userInput);
 
-        userInput.sendKeys(username);
-        unhighlight(userInput);
-        Thread.sleep(2000);
+            userInput.sendKeys(username);
+            unhighlight(userInput);
+            Thread.sleep(2000);
+        });
     }
 
     public void selectUserRole(String role) throws InterruptedException {
-        WebElement roleSelect = driver.findElement(USER_ROLE_SELECT);
-        highlight(roleSelect);
-        roleSelect.click();
-        unhighlight(roleSelect);
-        Thread.sleep(2000);
+        Allure.step("Select user role: " + role, () -> {
+            WebElement roleSelect = driver.findElement(USER_ROLE_SELECT);
+            highlight(roleSelect);
+            roleSelect.click();
+            unhighlight(roleSelect);
+            Thread.sleep(2000);
 
-        String xpath = "//div[@role='option']//span[text()='" + role + "']";
+            String xpath = "//div[@role='option']//span[text()='" + role + "']";
 //        cach 2: string format
-        String xpath2 = String.format("//div[@role='option']//span[text()='%s']", role);
-        WebElement adminRoleOption = driver.findElement(By.xpath(xpath2));
-        highlight(adminRoleOption);
-        adminRoleOption.click();
-        unhighlight(adminRoleOption);
-        Thread.sleep(2000);
+            String xpath2 = String.format("//div[@role='option']//span[text()='%s']", role);
+            WebElement adminRoleOption = driver.findElement(By.xpath(xpath2));
+            highlight(adminRoleOption);
+            adminRoleOption.click();
+            unhighlight(adminRoleOption);
+            Thread.sleep(2000);
+        });
     }
 
     public void clickSearchBtn() throws InterruptedException {
-        WebElement searchBtn = driver.findElement(SEARCH_BUTTON);
-        highlight(searchBtn);
+        Allure.step("Click search button", () -> {
+            WebElement searchBtn = driver.findElement(SEARCH_BUTTON);
+            highlight(searchBtn);
 
-        searchBtn.click();
-        Thread.sleep(2000);
-        unhighlight(searchBtn);
+            searchBtn.click();
+            Thread.sleep(2000);
+            unhighlight(searchBtn);
+        });
     }
 
     public void filterByUser(String username, String role) throws InterruptedException {
@@ -99,14 +108,17 @@ public class AdminPage extends BasePage{
     }
 
     public boolean checkNumberOfRecords() {
-        WebElement recordCountText = driver.findElement(RECORD_COUNT_TEXT);
-        String text = recordCountText.getText();
-        int countRecord = Integer.parseInt(text.replaceAll("\\D+", ""));
-        System.out.println("Number of records: " + countRecord);
+        return Allure.step("Check number of records", () -> {
+            // WebElement recordCountText = driver.findElement(RECORD_COUNT_TEXT);
+            WebElement recordCountText = wait.until(ExpectedConditions.visibilityOfElementLocated((RECORD_COUNT_TEXT)));
+            String text = recordCountText.getText();
+            int countRecord = Integer.parseInt(text.replaceAll("\\D+", ""));
+            System.out.println("Number of records: " + countRecord);
 
 //        findElements: tra ve list cac element -> List<WebElement>
-        int countDataRows = driver.findElements(dataRows).size();
+            int countDataRows = driver.findElements(dataRows).size();
 
-        return countRecord == countDataRows;
+            return countRecord == countDataRows;
+        });
     }
 }
