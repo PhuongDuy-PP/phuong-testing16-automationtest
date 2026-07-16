@@ -58,10 +58,45 @@ jobs:
         run: mvn -B test -Dheadless=true -Djava.awt.headless=true
 
       - name: Generate Allure Report
-        run: echo "Not yet implemented"
+        if: always()
+        run: mvn allure:report
 
       - name: Upload Allure Report
-        run: echo "Not yet implemented"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: testing16-selenium-pom/target/site/allure-maven-plugin
+          retention-days: 7 # tự xóa artifact sau 7 ngày để đỡ tốn dung lượng
+
+      - name: Read TestNG Results
+        if: always()
+        id: test-summary
+        run: |
+          # code theo kiểu của sh linux
+          FILE="target/surefire-reports/testng-results.xml"
+          # $(...) chạy lệnh bên trong () và lấy kết quả lưu vào biến (variable)
+          # VD: TOTAL=$(lệnh) => kết quả chạy lệnh sẽ lưu vào biến TOTAL
+          # total="7" passed="7" failed="0"
+          # [0-9]* => regular expression
+          # total="7" => grep -o 'total="[0-9]*"' "$FILE" | grep -o '[0-9]*'
+          TOTAL=$(grep -o 'total="[0-9]*"' "$FILE" | grep -o '[0-9]*')
+          PASSED=$(grep -o 'passed="[0-9]*"' "$FILE" | grep -o '[0-9]*')
+          FAILED=$(grep -o 'failed="[0-9]*"' "$FILE" | grep -o '[0-9]*')
+          
+          # GITHUB_OUTPUT: có sẵn của github action
+          # biến này giúp lưu trữ giá trị và để cho các step phía sau dùng tới
+          # lưu giá trị vo GITHUB_OUTPUT => >>
+          echo "total=$TOTAL" >> "$GITHUB_OUTPUT"
+          echo "passed=$PASSED" >> "$GITHUB_OUTPUT"
+          echo "failed=$FAILED" >> "$GITHUB_OUTPUT"
+          {
+            echo "message<<MSG_EOF"
+            echo "Result: ${{ job.status }} - testing16-selenium-pom"
+            echo "Total: $TOTAL | Passed: $PASSED | Failed: $FAILED"
+            echo "Detail: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "MSG_EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Send Report to Slack
         if: always()
@@ -71,5 +106,5 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "Done"
+              "text": "${{steps.test-summary.outputs.message}}"
             }
