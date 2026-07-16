@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import utils.ConfigReader;
 import utils.CsvReader;
+import utils.ScreenshotUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +33,8 @@ public class LoginTest extends BaseTest {
 
 //        kiem tra expected - actual result
         String currentUrl = getDriver().getCurrentUrl();
+
+        ScreenshotUtil.takeScreenshot(getDriver(), "login_success");
 
         Assert.assertTrue(currentUrl.contains("dashboard"));
     }
