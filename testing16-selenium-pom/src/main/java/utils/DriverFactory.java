@@ -20,7 +20,7 @@ public class DriverFactory {
         }
 
 //        handle thêm cho việc chạy test case trên CI
-        boolean isHeadless = ConfigReader.getBoolean("headless")
+        boolean isHeadless = ConfigReader.getBoolean("headless");
 
 //        dùng switch-case
         switch (browser) {
