@@ -1,0 +1,58 @@
+# FLOW cơ bản
+# 5 BƯỚC QUAN TRỌNG
+# 1: trường hợp nào chạy (trigger) chạy workflows này
+# - push code trực tiếp lên branch chỉ định
+# - tạo pull request vào branch chỉ định
+# LƯU Ý: CHỈ TRIGGER đúng folder cần chạy
+# 2: checkout (lấy code mới nhất) source code mới nhất từ github
+# 3: cài môi trường java trên máy ảo (cùng version JDK trong pom)
+# + lưu các cài đặt thư viện vào cache
+# 4: cài browser (chrome)
+# 5: chạy test case (mvn test -Dheadless=true)
+
+# MỘT SỐ BƯỚC NÂNG CAO (ALLURE REPORT + GỬI VỀ SLACK)
+# 6: tạo allure report mỗi lần chạy test
+# 7: tạo file allure-report.zip để download về chạy và xem
+# 8: lấy số liệu report => testng-results.xml
+# 9: gửi report về slack
+
+name: Selenium POM CI
+
+# B1: trigger chạy workflow này
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "testing16-selenium-pom/**"
+      - ".github/workflows/selenium-pom-ci.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "testing16-selenium-pom/**"
+      - ".github/workflows/selenium-pom-ci.yml"
+# sẽ tự động cd vào folder cần chạy
+defaults:
+  run:
+    working-directory: testing16-selenium-pom
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Run Selenium Tests
+        run: mvn -B test -Dheadless=true -Djava.awt.headless=true
