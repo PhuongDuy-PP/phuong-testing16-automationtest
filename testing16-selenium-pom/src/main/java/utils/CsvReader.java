@@ -27,6 +27,8 @@ public class CsvReader {
                     continue;
                 }
 
+//                line => "Admin,admin123,success" => ["Admin", "admin123", "sucess"]
+//                => String[] values = line.split(",");
 //                bo qua nhung dong trong (khong co du lieu)
                 if (line.trim().isEmpty()) {
                     continue;
