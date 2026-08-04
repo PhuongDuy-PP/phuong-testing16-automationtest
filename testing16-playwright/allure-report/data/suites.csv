@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","58549","Login failed","chromium","2026-07-30","passed","2026-07-30","Login tests","login.spec.ts","",""
+"","25271","Login successful","chromium","2026-07-30","passed","2026-07-30","Login tests","login.spec.ts","",""
+"","73254","Filter admin user","chromium","2026-07-30","passed","2026-07-30","Admin page tests","admin.spec.ts","",""
