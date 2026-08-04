@@ -1,4 +1,7 @@
 "BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
 "0","OrangeHRM Login","0","Login feature","1","0","Login failed","0"
+"0","OrangeHRM Login","0","Login feature","1","0","Login with username: Admin, expected: failed","0"
+"0","OrangeHRM Login","0","Login feature","1","0","Login with username: Admin1, expected: failed","0"
+"0","OrangeHRM Login","0","Login feature","1","0","Login with username: Admin, expected: success","0"
 "0","OrangeHRM Login","0","Login feature","1","0","Login success","0"
-"0","","0","","1","0","","0"
+"0","OrangeHRM Login","0","Login feature","1","0","Login with username: wronguser, expected: failed","0"

@@ -1,0 +1,1 @@
+absolutePath = /Users/macc/Documents/cybersoft/testing/testing16/testing16-playwright/tests/data/images/dog.png
