@@ -8,7 +8,7 @@ test.describe("Admin page tests", () => {
     test.beforeEach(async ({page}) => {
         const loginPage = new LoginPage(page)
 
-        await loginPage.login("Admin", "admin123")
+        await loginPage.login("Admin", "admin1234")
         await loginPage.isLoginSuccessful()
     })
 

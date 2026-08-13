@@ -14,7 +14,8 @@ test.describe("Login tests", () => {
 
         const loginPage = new LoginPage(page)
         await loginPage.login("Admin", "admin123")
-        await loginPage.isLoginSuccessful()
+        const isLoginSuccessful = await loginPage.isLoginSuccessful()
+        expect(isLoginSuccessful, "Expected login to be successful").toBeTruthy()
     })
 
     test("Login failed", async ({page}) => {
@@ -23,7 +24,7 @@ test.describe("Login tests", () => {
         const loginPage = new LoginPage(page)
         await loginPage.login("Admin", "admin1234")
         const isLoginSuccessful = await loginPage.isLoginSuccessful()
-        expect(isLoginSuccessful).toBeFalsy()
+        expect(isLoginSuccessful, "Expected login to fail").toBeFalsy()
     })
 
     // TODO: viết test case đọc file excel để login với nhiều bộ dữ liệu 

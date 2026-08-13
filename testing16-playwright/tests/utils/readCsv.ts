@@ -26,6 +26,10 @@ export const readCsv = (filePath: string): CsvRow[] => {
     // tách các dòng trong file csv thành 1 mảng
     const lines = csvContent.split("\n")
 
+    // lấy header làm key cho object
+    // "username,password,expected" => ["username", "password", "expected"]
+    const headers = lines[0].split(",")
+
     // bỏ qua header row (dòng đầu tiên)
     const dataLines = lines.slice(1)
 
@@ -42,18 +46,12 @@ export const readCsv = (filePath: string): CsvRow[] => {
 
         // nâng cao: sau này nếu có nhiều loại dữ liệu hơn
         // tạo 1 hàm sử lý được nhiều loại dữ liệu
-        switch (filePath) {
-            case "/data/loginData.csv":
-                const row: CsvRow = {
-                    username: columns[0],
-                    password: columns[1],
-                    expected: columns[2]
-                }
-                rows.push(row)
-                break
-            default:
-                throw new Error(`Unsupported CSV file: ${filePath}`)
-        }
+        const row: CsvRow = {}
+        headers.forEach((header: string, index: number) => {
+            console.log(`header = ${header}, index = ${index}, value = ${columns[index]}`)
+            row[header] = columns[index]
+        })
+        rows.push(row)
     }
     return rows
 }

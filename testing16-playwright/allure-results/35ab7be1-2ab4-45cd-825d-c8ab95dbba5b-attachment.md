@@ -1,0 +1,137 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: login.spec.ts >> Login tests >> Login successful
+- Location: tests/login.spec.ts:12:9
+
+# Error details
+
+```
+Error: expect(received).toBeTruthy()
+
+Received: false
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f1e4]:
+  - generic [ref=f1e6]:
+    - img "company-branding" [ref=f1e8]
+    - generic [ref=f1e9]:
+      - heading "Login" [level=5] [ref=f1e10]
+      - generic [ref=f1e11]:
+        - generic [ref=f1e12]:
+          - alert [ref=f1e13]:
+            - generic [ref=f1e14]:
+              - generic [ref=f1e15]: 
+              - paragraph [ref=f1e16]: Invalid credentials
+          - generic [ref=f1e18]:
+            - paragraph [ref=f1e19]: "Username : Admin"
+            - paragraph [ref=f1e20]: "Password : admin123"
+        - generic [ref=f1e21]:
+          - generic [ref=f1e23]:
+            - generic [ref=f1e24]:
+              - generic [ref=f1e25]: 
+              - generic [ref=f1e26]: Username
+            - textbox "Username" [active] [ref=f1e28]
+          - generic [ref=f1e30]:
+            - generic [ref=f1e31]:
+              - generic [ref=f1e32]: 
+              - generic [ref=f1e33]: Password
+            - textbox "Password" [ref=f1e35]
+          - button "Login" [ref=f1e37] [cursor=pointer]
+          - paragraph [ref=f1e39] [cursor=pointer]: Forgot your password?
+      - generic [ref=f1e40]:
+        - generic [ref=f1e41]:
+          - link [ref=f1e42] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/orangehrm/mycompany/
+          - link [ref=f1e45] [cursor=pointer]:
+            - /url: https://www.facebook.com/OrangeHRM/
+          - link [ref=f1e48] [cursor=pointer]:
+            - /url: https://twitter.com/orangehrm?lang=en
+          - link [ref=f1e51] [cursor=pointer]:
+            - /url: https://www.youtube.com/c/OrangeHRMInc
+        - generic [ref=f1e54]:
+          - paragraph [ref=f1e55]: OrangeHRM OS 5.9
+          - paragraph [ref=f1e56]:
+            - text: © 2005 - 2026
+            - link "OrangeHRM, Inc" [ref=f1e57] [cursor=pointer]:
+              - /url: http://www.orangehrm.com
+            - text: . All rights reserved.
+  - img "orangehrm-logo" [ref=f1e59]
+```
+
+# Test source
+
+```ts
+  1  | import test, {expect} from '@playwright/test'
+  2  | import { LoginPage } from '../pages/LoginPage'
+  3  | import { epic, feature, story } from 'allure-js-commons'
+  4  | import { CsvRow, readCsv } from './utils/readCsv'
+  5  | 
+  6  | test.describe("Login tests", () => {
+  7  |     test.beforeEach(async () => {
+  8  |         await epic("OrangeHRM Login")
+  9  |         await feature("Login feature")
+  10 |     })
+  11 | 
+  12 |     test("Login successful", async ({page}) => {
+  13 |         await story("Login success")
+  14 | 
+  15 |         const loginPage = new LoginPage(page)
+  16 |         await loginPage.login("Admin", "admin123456")
+  17 |         const isLoginSuccessful = await loginPage.isLoginSuccessful()
+> 18 |         expect(isLoginSuccessful).toBeTruthy()
+     |                                   ^ Error: expect(received).toBeTruthy()
+  19 |     })
+  20 | 
+  21 |     test("Login failed", async ({page}) => {
+  22 |         await story("Login failed")
+  23 | 
+  24 |         const loginPage = new LoginPage(page)
+  25 |         await loginPage.login("Admin", "admin1234")
+  26 |         const isLoginSuccessful = await loginPage.isLoginSuccessful()
+  27 |         expect(isLoginSuccessful).toBeFalsy()
+  28 |     })
+  29 | 
+  30 |     // TODO: viết test case đọc file excel để login với nhiều bộ dữ liệu 
+  31 | })
+  32 | 
+  33 | // test.describe("Login tests with data from CSV", () => {
+  34 | //     test.beforeEach(async () => {
+  35 | //         await epic("OrangeHRM Login")
+  36 | //         await feature("Login feature")
+  37 | //     })
+  38 | 
+  39 | //     // đọc dữ liệu từ file csv
+  40 | //     const loginData: CsvRow[] = readCsv("/data/loginData.csv")
+  41 | 
+  42 | //     // tạo test case cho từng bộ dữ liệu trong file csv
+  43 | //     // dùng for để duyệt qua từng data => test case
+  44 | //     for (const data of loginData) {
+  45 | //         // LUƯ Ý: TRÁNH TRÙNG TÊN TEST CASE
+  46 | //         // => ĐẶT TITLE KHÁC NHAU => DÙNG DỮ LIỆU TRONG FILE CSV
+  47 | //         const title = `Login with username: ${data.username}, expected: ${data.expected}`
+  48 | //         test(title, async ({page}) => {
+  49 | //             await story(`Login with username: ${data.username}, expected: ${data.expected}`)
+  50 | 
+  51 | //             const loginPage = new LoginPage(page)
+  52 | //             await loginPage.login(data.username, data.password)
+  53 | 
+  54 | //             const isLoginSuccessful = await loginPage.isLoginSuccessful()
+  55 | //             const expected = data.expected
+  56 | //             if(expected === "success") {
+  57 | //                 expect(isLoginSuccessful).toBeTruthy()
+  58 | //             } else {
+  59 | //                 expect(isLoginSuccessful).toBeFalsy()
+  60 | //             }
+  61 | //         })
+  62 | //     }
+  63 | // })
+```

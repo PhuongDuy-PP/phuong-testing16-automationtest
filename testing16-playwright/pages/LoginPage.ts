@@ -1,4 +1,5 @@
 import { Locator, Page } from "@playwright/test";
+import { highlight, unhighlight } from "./utils/highlight";
 
 export class LoginPage {
     // thuộc tính để tương tác với browser
@@ -38,13 +39,22 @@ export class LoginPage {
         })
 
         // B2: nhập username
+        highlight(this.usernameInput)
         await this.usernameInput.fill(username)
+        await this.page.waitForTimeout(1000)
+        unhighlight(this.usernameInput)
         
         // B3: nhập password
+        highlight(this.passwordInput)
         await this.passwordInput.fill(password)
+        await this.page.waitForTimeout(1000)
+        unhighlight(this.passwordInput)
 
         // B4: click login button
+        highlight(this.loginBtn)
         await this.loginBtn.click()
+        await this.page.waitForTimeout(1000)
+        unhighlight(this.loginBtn)
     }
 
     async isLoginSuccessful(): Promise<boolean> {
